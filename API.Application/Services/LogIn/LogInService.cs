@@ -47,7 +47,8 @@ public class LogInService : ILogInService
         RefreshToken refreshToken = _tokenBuilder.GenerateRefreshToken();
         currentEmployee.RefreshToken = refreshToken.Token;
         currentEmployee.RefreshTokenExpires = refreshToken.Expires;
-        
+
+        await _employeeRepo.Save();
 
         IEnumerable<StockDTO> stocks = _stockRepo.GetAllStocksNameByEmployee(currentEmployee.Stocks);
 
@@ -61,7 +62,7 @@ public class LogInService : ILogInService
 
     public async Task<RefreshTokenResponse?> RefreshToken(string oldToken)
     {
-        var oldClaims = _tokenBuilder.GetPrincipalFroExpiredToken(oldToken, _config);
+        var oldClaims = _tokenBuilder.GetPrincipalForExpiredToken(oldToken, _config);
         Guid currentEmployeeId = new(oldClaims!.FindFirstValue("EmployeeId")!);
         Employee? currentEmployee = await _employeeRepo.GetEmployeeById(currentEmployeeId);
         

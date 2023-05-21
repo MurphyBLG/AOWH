@@ -183,9 +183,9 @@ public class EmployeeService : IEmployeeService
         foreach(int stock in stocks)
         {
             if (stocksId.Contains(stock))
-                return false;
+                return true;
         }
 
-        return true;
+        return false;
     }
 }

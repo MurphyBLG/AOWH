@@ -24,7 +24,18 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task<IEnumerable<AllEmployeesResponse>> GetAllEmployees(IStockRepository stockRepo)
     {
-        IEnumerable<AllEmployeesResponse> employees = await _context.Employees.AsNoTracking()
+        var employees = await _context.Employees.AsNoTracking()
+            .Select(e => new
+            {
+                EmployeeId = e.EmployeeId,
+                Name = e.Name,
+                Surname = e.Surname,
+                Patronymic = e.Patronymic,
+                Stocks = e.Stocks,
+                Link = e.Link
+            }).ToListAsync();
+
+        var employeesResponse = employees
             .Select(e => new AllEmployeesResponse
             {
                 EmployeeId = e.EmployeeId,
@@ -33,9 +44,9 @@ public class EmployeeRepository : IEmployeeRepository
                 Patronymic = e.Patronymic,
                 Stocks = stockRepo.GetAllStocksNameByEmployee(e.Stocks),
                 Link = e.Link
-            }).ToListAsync();
+            });
 
-        return employees;
+        return employeesResponse;
     }
 
     public async Task<Employee?> GetEmployeeById(Guid id)

@@ -44,7 +44,7 @@ public class TokenBuilder : ITokenBuilder
         };
     }
 
-    public ClaimsPrincipal? GetPrincipalFroExpiredToken(string token, IConfiguration config)
+    public ClaimsPrincipal? GetPrincipalForExpiredToken(string token, IConfiguration config)
     {
         var tokenValidationParameters = new TokenValidationParameters
         {

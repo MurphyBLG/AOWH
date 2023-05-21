@@ -15,6 +15,4 @@ public class GetAccountingResponse
     public decimal Penalties { get; set; }
     public decimal Sends { get; set; }
     public decimal Payment { get; set; }
-
-
 }
