@@ -41,7 +41,7 @@ var builder = WebApplication.CreateBuilder(args);
     });
 
     IMapper mapper = mapperConfig.CreateMapper();
-    builder.Services.AddSingleton(mapper);
+    builder.Services.AddSingleton(mapper);  // YOLO
 }
 
 var app = builder.Build();
